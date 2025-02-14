@@ -1,4 +1,42 @@
-echo "venv/" >> .gitignore
-echo "__pycache__/" >> .gitignore
-echo "db.sqlite3" >> .gitignore
+# Virtual Environment
+venv/
+env/
 
+# Byte-compiled / cached
+__pycache__/
+*.py[cod]
+
+# SQLite Database
+db.sqlite3
+*.sqlite3
+
+# Logs
+logs/
+*.log
+nohup.out
+
+# Media & Static Files (optional)
+media/
+staticfiles/
+static/
+
+# Environment Variables & Secrets
+.env
+config/.env
+
+# Celery & Redis
+celerybeat-schedule
+celerybeat.pid
+
+# Django Migrations
+*/migrations/*.py
+*/migrations/*.pyc
+
+# VS Code / JetBrains IDE Configs (Optional)
+.vscode/
+.idea/
+
+# Compiled Files & Cache
+*.egg-info/
+*.DS_Store
+*.swp
