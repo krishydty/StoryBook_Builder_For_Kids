@@ -5,3 +5,8 @@ class StoryCreationForm(forms.ModelForm):
     class Meta:
         model = Story
         fields = ['title', 'characters', 'ages', 'setting', 'theme']
+
+class StoryContentUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Story
+        fields = ['content']

@@ -45,3 +45,17 @@ def play_story_audio(request, story_id):
     # Return the audio data with the correct MIME type for MP3
     return HttpResponse(audio_buffer, content_type='audio/mpeg')
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Story
+from .forms import StoryContentUpdateForm
+
+def update_story_content(request, story_id):
+    story = get_object_or_404(Story, id=story_id)
+    if request.method == 'POST':
+        form = StoryContentUpdateForm(request.POST, instance=story)
+        if form.is_valid():
+            form.save()
+            return redirect('story_detail', story_id=story.id)
+    else:
+        form = StoryContentUpdateForm(instance=story)
+    return render(request, 'stories/update_story_content.html', {'form': form, 'story': story})

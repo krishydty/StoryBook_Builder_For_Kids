@@ -6,8 +6,11 @@
 <p><strong>Characters:</strong> {{ story.characters }}</p>
 <p><strong>Theme:</strong> {{ story.theme }}</p>
 <p><strong>Setting:</strong> {{ story.setting }}</p>
-<p><strong>Content:</strong> {{ story.content }}</p>
+<p><strong>Content:</strong>{{ story.content }}</p>
+<a href="{% url 'play_story_audio' story.id %}" class="btn btn-primary">Listen to Story</a>
 {% if story.illustration %}
   <img src="{{ story.illustration.url }}" alt="Story Illustration">
 {% endif %}
 {% endblock %}
+
+
