@@ -10,14 +10,18 @@ from .tasks import generate_story_and_image_task
 
 
 def create_story(request):
+    """
+    Handles story creation: on form POST, saves the story with status 'pending'
+    and triggers the Celery task for AI generation.
+    """
     if request.method == 'POST':
         form = StoryCreationForm(request.POST)
         if form.is_valid():
             story = form.save(commit=False)
-            story.user = request.user  # assign current user
-            story.status = 'pending'   # mark as pending AI generation
+            story.user = request.user
+            story.status = 'pending'
             story.save()
-            # Trigger the Celery task for AI generation
+            # Trigger the asynchronous AI generation task
             generate_story_and_image_task.delay(story.id)
             return redirect('story_detail', story_id=story.id)
     else:
