@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home | StoryBook Builder{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+  <!-- Welcome Banner -->
+  <div class="col-12">
+    <div class="p-4 mb-3 bg-warning text-dark rounded shadow-sm">
+      <h1 class="display-5 fw-bold">
+        Hello, {{ request.user.username }}!
+      </h1>
+      <p class="fs-5">Welcome to your StoryBook Dashboard.</p>
+      <p class="mb-0">
+        <strong>Stories created:</strong> {{ user_stats.total_stories }}
+        <!-- If you track favorites, you can show: -->
+        <!-- <strong class="ms-3">Favorites:</strong> {{ user_stats.favorite_count }} -->
+      </p>
+    </div>
+  </div>
+
+  <!-- Quick Action: Create a New Story -->
+  <div class="col-md-6">
+    <div class="card border-success border-3 shadow-sm h-100">
+      <div class="card-body d-flex flex-column justify-content-center text-center">
+        <h2 class="card-title text-success fw-bold mb-3">Create a New Story</h2>
+        <p class="card-text fs-5 text-muted">
+          Let your imagination run wild! Make a brand-new adventure.
+        </p>
+        <a href="{% url 'create_story' %}" class="btn btn-success fw-bold mt-auto">
+          Create Story
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Stories -->
+  <div class="col-md-6">
+    <div class="card border-primary border-3 shadow-sm h-100">
+      <div class="card-body">
+        <h2 class="card-title text-primary fw-bold mb-3">Recent Stories</h2>
+        {% if recent_stories %}
+          <ul class="list-group">
+            {% for story in recent_stories %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">{{ story.title }}</span>
+                <a
+                  href="{% url 'story_detail' story.id %}"
+                  class="btn btn-outline-primary btn-sm fw-bold"
+                >
+                  View
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">No recent stories found.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Example: Favorites Section (If you have it) -->
+  {# 
+  <div class="col-md-6">
+    <div class="card border-warning border-3 shadow-sm h-100">
+      <div class="card-body">
+        <h2 class="card-title text-warning fw-bold mb-3">Your Favorites</h2>
+        {% if user_favorites and user_favorites|length > 0 %}
+          <ul class="list-group">
+            {% for fav in user_favorites %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">{{ fav.story.title }}</span>
+                <a
+                  href="{% url 'story_detail' fav.story.id %}"
+                  class="btn btn-outline-warning btn-sm fw-bold"
+                >
+                  View
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">No favorites yet. Let's create or discover some stories!</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  #}
+
+  <!-- Profile Info Card (Optional) -->
+  <div class="col-md-6">
+    <div class="card border-info border-3 shadow-sm h-100">
+      <div class="card-body d-flex flex-column">
+        <h2 class="card-title text-info fw-bold mb-3">Profile Overview</h2>
+        <!-- Example: show user’s email or profile picture if available -->
+        <p class="fs-5">
+          <strong>Email:</strong> {{ request.user.email }}<br/>
+        </p>
+        <a
+          href="{% url 'profile_update' %}"
+          class="btn btn-info fw-bold mt-auto"
+        >
+          Update Profile
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

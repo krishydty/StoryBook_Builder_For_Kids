@@ -1,11 +1,21 @@
-{% extends 'base.html' %}
-{% block title %}Update Story Content{% endblock %}
-
+{% extends "base.html" %}
+{% block title %}Update Story | StoryBook Builder{% endblock %}
 {% block content %}
-  <h1>Update Content for: {{ story.title }}</h1>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-  </form>
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow border-success border-2">
+      <div class="card-body">
+        <h2 class="card-title text-success fw-bold mb-4 text-center">
+          Update Your Story
+        </h2>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <!-- E.g., content field for updating story's text -->
+          <button class="btn btn-success w-100 fw-bold mt-2">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

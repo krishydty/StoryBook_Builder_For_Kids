@@ -15,19 +15,23 @@ def signup_view(request):
     return render(request, 'accounts/signup.html', {'form': form})
 
 
-
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user:
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            # If the form is valid, the cleaned_data contains the username and password.
+            user = form.get_user()
             login(request, user)
             return redirect('profile_update')
         else:
-            error = "Invalid username or password."
-            return render(request, 'accounts/login.html', {'error': error})
-    return render(request, 'accounts/login.html')
+            # The form will contain errors that you can display in the template.
+            return render(request, 'accounts/login.html', {'form': form})
+    else:
+        form = AuthenticationForm()
+        return render(request, 'accounts/login.html', {'form': form})
 
 
 

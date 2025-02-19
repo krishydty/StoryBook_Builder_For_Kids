@@ -59,3 +59,45 @@ def update_story_content(request, story_id):
     else:
         form = StoryContentUpdateForm(instance=story)
     return render(request, 'stories/update_story_content.html', {'form': form, 'story': story})
+
+
+# home/views.py
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import Story  # or wherever your story model is
+# from favorites.models import Favorite  # if you have a favorite model
+
+@login_required
+def home(request):
+    # Example data fetching:
+    # 1) Recent stories
+    recent_stories = Story.objects.order_by('-created_at')[:5]
+    # 2) User's favorites
+    # user_favorites = Favorite.objects.filter(user=request.user).select_related('story')[:5]
+    # 3) Example user stats (we'll mock them for now)
+    user_stats = {
+        'total_stories': Story.objects.filter(user=request.user).count(),
+        'favorite_count': 0,  # user_favorites.count() if using favorites
+    }
+
+    context = {
+        'recent_stories': recent_stories,
+        # 'user_favorites': user_favorites,
+        'user_stats': user_stats,
+    }
+    return render(request, 'home.html', context)
+
+def stories_list(request):
+    # Example: fetch all stories
+    all_stories = Story.objects.all()
+    return render(request, 'stories/stories_list.html', {'all_stories': all_stories})
+
+
+@login_required
+def favorites_view(request):
+    # Fetch the user's favorite stories
+    # For demonstration, we assume you have a Favorite model or you can use Story filtering.
+    # If you don't have favorites yet, just pass an empty list or some placeholder.
+    favorites = []  # Replace with your actual query
+    context = {'favorites': favorites}
+    return render(request, 'favorites.html', context)

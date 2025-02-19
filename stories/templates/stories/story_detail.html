@@ -1,16 +1,33 @@
-{% extends 'base.html' %}
-{% block title %}{{ story.title }}{% endblock %}
 
+
+
+
+{% extends "base.html" %}
+{% block title %}{{ story.title }} | StoryBook Builder{% endblock %}
 {% block content %}
-<h1>{{ story.title }}</h1>
-<p><strong>Characters:</strong> {{ story.characters }}</p>
-<p><strong>Theme:</strong> {{ story.theme }}</p>
-<p><strong>Setting:</strong> {{ story.setting }}</p>
-<p><strong>Content:</strong>{{ story.content }}</p>
-<a href="{% url 'play_story_audio' story.id %}" class="btn btn-primary">Listen to Story</a>
-{% if story.illustration %}
-  <img src="{{ story.illustration.url }}" alt="Story Illustration">
-{% endif %}
+<div class="mx-auto" style="max-width: 800px;">
+  <div class="card shadow-lg">
+    {% if story.illustration %}
+      <img
+        src="{{ story.illustration.url }}"
+        class="card-img-top"
+        alt="Story Illustration"
+        onerror="this.style.display='none';"
+      />
+    {% endif %}
+    <div class="card-body">
+      <h2 class="card-title fs-2 text-primary fw-bold">{{ story.title }}</h2>
+      <p class="text-secondary">
+        <strong>Theme:</strong> {{ story.theme }}<br />
+        <strong>Characters:</strong> {{ story.characters }}<br />
+        <strong>Setting:</strong> {{ story.setting }}<br />
+      </p>
+      <hr />
+      <p class="card-text fs-5 text-dark">{{ story.content }}</p>
+      <a href="#" class="btn btn-warning mt-3 fw-bold">Favorite This Story</a>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 

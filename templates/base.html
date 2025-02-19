@@ -1,33 +1,91 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}StoryBook{% endblock %}</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                <li><a href="{% url 'login' %}">Login</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'profile_update' %}">Profile</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}StoryBook Builder{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <main>
-        {% block content %}
-        <!-- Child templates will insert their content here -->
-        {% endblock %}
+    <!-- Bootstrap CSS (CDN) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <!-- Optional custom CSS for extra kid-friendly touches -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+  </head>
+  <body class="bg-light d-flex flex-column min-vh-100">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-warning shadow-sm">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+          <img
+            src="{% static 'images/kid_cartoon.png' %}"
+            alt="Kid Cartoon"
+            style="width:50px; height:50px;"
+            class="me-2"
+          />
+          <span class="fw-bold fs-3 text-dark">StoryBook Builder</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link text-dark fw-bold" href="{% url 'home' %}">
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link text-dark fw-bold"
+                href="{% url 'create_story' %}"
+                >Stories</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link text-dark fw-bold"
+                href="{% url 'favorites' %}"
+                >Favorites</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link text-dark fw-bold"
+                href="{% url 'profile_update' %}"
+                >Profile</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark fw-bold" href="{% url 'logout' %}">
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-5 flex-grow-1">
+      {% block content %}{% endblock %}
     </main>
 
-    <footer>
-        <p>&copy; {% now "Y" %} StoryBook. All rights reserved.</p>
+    <!-- Footer -->
+    <footer class="bg-warning text-center py-3 mt-auto">
+      <p class="mb-0 fw-bold text-dark">&copy; 2025 StoryBook Builder</p>
     </footer>
-</body>
+
+    <!-- Bootstrap JS Bundle (Optional) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    ></script>
+  </body>
 </html>
