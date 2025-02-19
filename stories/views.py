@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from gtts import gTTS
 import io
 from .models import Story  # Ensure you import your Story model
+from .tasks import generate_story_and_image_task
 
 
 def create_story(request):
@@ -13,8 +14,11 @@ def create_story(request):
         form = StoryCreationForm(request.POST)
         if form.is_valid():
             story = form.save(commit=False)
-            story.user = request.user  # Ensure user is assigned
+            story.user = request.user  # assign current user
+            story.status = 'pending'   # mark as pending AI generation
             story.save()
+            # Trigger the Celery task for AI generation
+            generate_story_and_image_task.delay(story.id)
             return redirect('story_detail', story_id=story.id)
     else:
         form = StoryCreationForm()
